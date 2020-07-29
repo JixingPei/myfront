@@ -5,7 +5,7 @@
     </div>
     <!-- <div class="photo_upload">
       <el-upload
-        class="photo_upload_button" 
+        class="photo_upload_button"
         action="上传的地址"
         :on-preview="handlePreview"
         :on-remove="handleRemove"
