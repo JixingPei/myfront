@@ -22,12 +22,11 @@
   </div>
 </template>
 <script>
-import ImageCropper from '@/components/ImageCropper'
 import PanThumb from '@/components/PanThumb'
 
 export default {
   name: 'Photo',
-  components: { ImageCropper, PanThumb },
+  components: { PanThumb },
   data() {
     return {
       test: 99 * 2,
