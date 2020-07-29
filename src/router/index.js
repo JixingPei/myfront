@@ -150,14 +150,14 @@ export const constantRoutes = [
   },
 
   {
-    path: 'external-link',
+    path: '/movie',
     component: Layout,
-    children: [
-      {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
-      }
-    ]
+    children: [{
+      path: 'movie',
+      name: 'Movie',
+      component: () => import('@/views/movie/index'),
+      meta: { title: 'Movie', icon: 'dashboard' }
+    }]
   },
 
   // 404 page must be placed at the end !!!
