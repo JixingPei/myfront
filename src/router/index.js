@@ -156,7 +156,7 @@ export const constantRoutes = [
       path: 'movie',
       name: 'Movie',
       component: () => import('@/views/movie/index'),
-      meta: { title: 'Movie', icon: 'el-icon-video-camera' }
+      meta: { title: '电影', icon: 'el-icon-video-camera' }
     }]
   },
   {
@@ -166,7 +166,7 @@ export const constantRoutes = [
       path: 'photo',
       name: 'Photo',
       component: () => import('@/views/photo/index'),
-      meta: { title: 'Photo', icon: 'el-icon-picture' }
+      meta: { title: '照片', icon: 'el-icon-picture' }
     }]
   },
   // 404 page must be placed at the end !!!
