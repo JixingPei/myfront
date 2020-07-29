@@ -5,7 +5,6 @@
       <pan-thumb v-for="url in urls" :key="url" :image="url">suprise</pan-thumb>
     </div>
 
-    <el-button plain @click="upload_successd">可自动关闭</el-button>
     <!-- <div class="photo_upload">
       <el-upload
         class="photo_upload_button"
@@ -100,13 +99,6 @@ export default {
     },
     close() {
       this.imagecropperShow = false
-    },
-    upload_successd() {
-      const h = this.$createElement
-      this.$notify({
-        title: '提示',
-        message: h('i', { style: 'color: teal' }, '添加成功')
-      })
     }
   }
 }
