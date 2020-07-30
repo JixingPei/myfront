@@ -1,27 +1,39 @@
 <template>
   <div class="photo-container">
-    <el-button plain @click="upload_successd">可自动关闭</el-button>
-
     <div class="form-div">
       <el-form ref="photoform" :model="photoform" label-width="80px">
-        <el-form-item label="活动名称">
-          <el-input v-model="photoform.name" />
+        <el-form-item label="照片类别">
+          <!-- <el-input v-model="photoform.type" /> -->
+
+          <!-- <el-radio v-for="value in typeList" :key="value" :v-model="phototype" :label="value" /> -->
+          <el-radio-group v-model="photoform.phototype">
+            <el-radio-button v-for="value in typeList" :key="value" :label="value" />
+          </el-radio-group>
         </el-form-item>
+        <el-form-item label="照片日期">
+          <el-date-picker
+            v-model="photoform.date"
+            align="right"
+            type="date"
+            placeholder="选择日期"
+            :picker-options="pickerOptions"
+          />
+        </el-form-item>
+
         <el-form-item label="上传图片">
           <el-upload
             ref="upload"
             class="upload-demo"
-            action="https://jsonplaceholder.typicode.com/posts/"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            :file-list="fileList"
+            action="http://localhost:9528/"
+            :file-list="photoform.fileList"
             :auto-upload="false"
             list-type="picture"
+            multiple
+            accept="png"
           >
             <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
           </el-upload>
-
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onSubmit">立即创建</el-button>
@@ -36,11 +48,41 @@ export default {
   name: 'UploadPhoto',
   data() {
     return {
+      pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() > Date.now()
+        },
+        shortcuts: [{
+          text: '今天',
+          onClick(picker) {
+            picker.$emit('pick', new Date())
+          }
+        }, {
+          text: '昨天',
+          onClick(picker) {
+            const date = new Date()
+            date.setTime(date.getTime() - 3600 * 1000 * 24)
+            picker.$emit('pick', date)
+          }
+        }, {
+          text: '一周前',
+          onClick(picker) {
+            const date = new Date()
+            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
+            picker.$emit('pick', date)
+          }
+        }]
+      },
+      typeList: null,
       photoform: {
-        name: null,
-        date: null
+        phototype: null,
+        date: null,
+        fileList: null
       }
     }
+  },
+  created() {
+    this.typeList = ['旅游', '游学', '工作']
   },
   methods: {
     upload_successd() {
@@ -49,6 +91,16 @@ export default {
         title: '提示',
         message: h('i', { style: 'color: teal' }, '添加成功')
       })
+    },
+    onSubmit() {
+      console.log(this.photoform.phototype)
+      try {
+        this.$refs.upload.submit()
+      } catch (error) {
+        console.error(error)
+        return
+      }
+      this.upload_successd()
     }
   }
 }
@@ -58,7 +110,7 @@ export default {
 .photo-container {
   margin: 30px;
 }
-.form-div{
+.form-div {
   background-color: aqua;
   width: 500px;
   padding: 20px;
