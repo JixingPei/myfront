@@ -44,6 +44,7 @@
   </div>
 </template>
 <script>
+import { getPhoto } from '@/api/photo'
 export default {
   name: 'UploadPhoto',
   data() {
@@ -94,6 +95,10 @@ export default {
     },
     onSubmit() {
       console.log(this.photoform.phototype)
+      var params = {
+        user: 'qw'
+      }
+      getPhoto(params)
       try {
         this.$refs.upload.submit()
       } catch (error) {
