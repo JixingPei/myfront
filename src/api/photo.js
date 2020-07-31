@@ -1,10 +1,8 @@
 import request from '@/utils/request'
 
-export function getPhoto(params) {
-  console.log(params)
+export function getPhoto() {
   return request({
     url: '/photo',
-    method: 'post',
-    params: params
+    method: 'get'
   })
 }
