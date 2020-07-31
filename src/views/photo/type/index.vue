@@ -45,7 +45,7 @@ export default {
       test: 99 * 2,
       imagecropperShow: false,
       imagecropperKey: 0,
-      image: 'https://wpimg.wallstcn.com/577965b9-bb9e-4e02-9f0c-095b41417191',
+      image: 'http://10.143.3.122:8888/img/1.png',
       urls: [
         'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
         'https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg',
@@ -81,13 +81,6 @@ export default {
     },
     close() {
       this.imagecropperShow = false
-    },
-    upload_successd() {
-      const h = this.$createElement
-      this.$notify({
-        title: '提示',
-        message: h('i', { style: 'color: teal' }, '添加成功')
-      })
     }
   }
 }

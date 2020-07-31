@@ -2,7 +2,7 @@ import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
-
+import qs from 'qs'
 // create an axios instance
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
@@ -23,12 +23,17 @@ service.interceptors.request.use(
     }
     config.headers['X-Requested-With'] = 'XMLHttpRequest'
     config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+    config.transformRequest = [
+      function(data) {
+        return qs.stringify(data)
+      }
+    ]
     return config
   },
   error => {
     // do something with request error
     console.log(error) // for debug
-    return Promise.reject(error)
+    // return Promise.reject(error)
   }
 )
 
@@ -68,7 +73,7 @@ service.interceptors.response.use(
           })
         })
       }
-      return Promise.reject(new Error(res.message || 'Error'))
+      // return Promise.reject(new Error(res.message || 'Error'))
     } else {
       return res
     }

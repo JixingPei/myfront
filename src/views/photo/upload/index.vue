@@ -3,12 +3,10 @@
     <div class="form-div">
       <el-form ref="photoform" :model="photoform" label-width="80px">
         <el-form-item label="照片类别">
-          <!-- <el-input v-model="photoform.type" /> -->
-
-          <!-- <el-radio v-for="value in typeList" :key="value" :v-model="phototype" :label="value" /> -->
           <el-radio-group v-model="photoform.phototype">
             <el-radio-button v-for="value in typeList" :key="value" :label="value" />
           </el-radio-group>
+          <el-button @click="addPhotoType">+</el-button>
         </el-form-item>
         <el-form-item label="照片日期">
           <el-date-picker
@@ -86,6 +84,9 @@ export default {
     this.typeList = ['旅游', '游学', '工作']
   },
   methods: {
+    addPhotoType() {
+      console.log('addPhotoType')
+    },
     upload_successd() {
       const h = this.$createElement
       this.$notify({
@@ -94,18 +95,15 @@ export default {
       })
     },
     onSubmit() {
+      const that = this
       console.log(this.photoform.phototype)
       var params = {
-        user: 'qw'
+        name: 'qw'
       }
-      getPhoto(params)
-      try {
-        this.$refs.upload.submit()
-      } catch (error) {
-        console.error(error)
-        return
-      }
-      this.upload_successd()
+      getPhoto(params).then(function(res) {
+        console.log('res' + res)
+        that.upload_successd()
+      })
     }
   }
 }
