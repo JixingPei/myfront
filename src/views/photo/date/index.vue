@@ -39,10 +39,10 @@ export default {
     const that = this
     getPhoto().then(function(res) {
       that.dateList = res.dateList
-      const filePathNamrList = res.filePathNamrList
-      for (let index = 0; index < filePathNamrList.length; index++) {
-        that.imagesLists.push({ imagesList: filePathNamrList[index] })
-        console.log(filePathNamrList[index])
+      const filePathNameList = res.filePathNameList
+      for (let index = 0; index < filePathNameList.length; index++) {
+        that.imagesLists.push({ imagesList: filePathNameList[index] })
+        console.log(filePathNameList[index])
       }
     })
   },
