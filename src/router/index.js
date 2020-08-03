@@ -192,6 +192,12 @@ export const constantRoutes = [
       name: 'Upload',
       component: () => import('@/views/photo/upload/index.vue'),
       meta: { title: '照片上传', icon: 'el-icon-picture' }
+    },
+    {
+      path: 'show',
+      name: 'Show',
+      component: () => import('@/views/photo/show/index.vue'),
+      meta: { title: '照片墙', icon: 'el-icon-picture' }
     }
     ]
   },

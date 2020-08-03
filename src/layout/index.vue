@@ -90,4 +90,7 @@ export default {
   .mobile .fixed-header {
     width: 100%;
   }
+  .app-main{
+    background-color: #eee;
+  }
 </style>
