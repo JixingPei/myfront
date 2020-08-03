@@ -22,7 +22,7 @@
           <el-upload
             ref="upload"
             class="upload-demo"
-            action="http://localhost:9528/"
+            action="http://10.143.3.122:8888/uploadPhoto"
             :file-list="photoform.fileList"
             :auto-upload="false"
             list-type="picture"
@@ -34,6 +34,7 @@
           </el-upload>
         </el-form-item>
         <el-form-item>
+          <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
           <el-button type="primary" @click="onSubmit">立即创建</el-button>
           <el-button>取消</el-button>
         </el-form-item>
@@ -84,6 +85,9 @@ export default {
     this.typeList = ['旅游', '游学', '工作']
   },
   methods: {
+    submitUpload() {
+      this.$refs.upload.submit()
+    },
     addPhotoType() {
       console.log('addPhotoType')
     },

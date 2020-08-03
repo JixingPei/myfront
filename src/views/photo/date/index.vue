@@ -10,11 +10,23 @@
         v-for="(type,index) in dateList"
         :key="type"
         v-model="activeNames"
+        accordion
         @change="handleChange"
       >
         <el-collapse-item :title="type">
-          <el-image v-for="url in imagesLists[index]['imagesList']" :key="url" style="width: 10%" :src="url" :preview-src-list="imagesLists[index]['imagesList']">/>
-          </el-image></el-collapse-item>
+          <!-- <el-image
+            v-for="url in imagesLists[index]['imagesList']"
+            :key="url"
+            style="width: 33%"
+            :src="url"
+            :preview-src-list="imagesLists[index]['imagesList']"
+          >/></el-image> -->
+          <el-carousel :interval="4000" type="card" height="200px">
+            <el-carousel-item v-for="url in imagesLists[index]['imagesList']" :key="url">
+              <el-image :src="url" />
+            </el-carousel-item>
+          </el-carousel>
+        </el-collapse-item>
       </el-collapse>
     </div>
   </div>
@@ -45,32 +57,6 @@ export default {
         console.log(filePathNameList[index])
       }
     })
-  },
-  methods: {
-    handleRemove(file, fileList) {
-      console.log(file, fileList)
-    },
-    handlePreview(file) {
-      console.log(file)
-    },
-    handleExceed(files, fileList) {
-      this.$message.warning(
-        `当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
-          files.length + fileList.length
-        } 个文件`
-      )
-    },
-    beforeRemove(file, fileList) {
-      return this.$confirm(`确定移除 ${file.name}？`)
-    },
-    cropSuccess(resData) {
-      this.imagecropperShow = false
-      this.imagecropperKey = this.imagecropperKey + 1
-      this.image = resData.files.avatar
-    },
-    close() {
-      this.imagecropperShow = false
-    }
   }
 }
 </script>
