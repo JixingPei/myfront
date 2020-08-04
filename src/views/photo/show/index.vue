@@ -4,14 +4,52 @@
       <div class="portfolio-content">
         <div class="portfolio-page">
           <div class="portfolio-group">
-            <img
-              src="http://demo.qfpffmp.cn/cssthemes6/templatemo_413_flip_turn/images/1-large.jpg"
-            >
+            <img :src="imagesLists[0]['imagesList'][0]">
+            <div class="detail">
+              <h3>Rock Solid</h3>
+            </div>
           </div>
           <div class="portfolio-group">
-            <img
-              src="http://demo.qfpffmp.cn/cssthemes6/templatemo_413_flip_turn/images/2-large.jpg"
-            >
+            <img :src="imagesLists[0]['imagesList'][1]">
+            <div class="detail">
+              <h3>Rock Solid</h3>
+            </div>
+          </div>
+          <div class="portfolio-group">
+            <img :src="imagesLists[0]['imagesList'][2]">
+            <div class="detail">
+              <h3>Rock Solid</h3>
+            </div>
+          </div>
+          <div class="portfolio-group">
+            <img :src="imagesLists[0]['imagesList'][3]">
+            <div class="detail">
+              <h3>Rock Solid</h3>
+            </div>
+          </div>
+          <div class="portfolio-group">
+            <img :src="imagesLists[0]['imagesList'][4]">
+            <div class="detail">
+              <h3>Rock Solid</h3>
+            </div>
+          </div>
+          <div class="portfolio-group">
+            <img :src="imagesLists[0]['imagesList'][5]">
+            <div class="detail">
+              <h3>Rock Solid</h3>
+            </div>
+          </div>
+          <div class="portfolio-group">
+            <img :src="imagesLists[0]['imagesList'][6]">
+            <div class="detail">
+              <h3>Rock Solid</h3>
+            </div>
+          </div>
+          <div class="portfolio-group">
+            <img :src="imagesLists[0]['imagesList'][7]">
+            <div class="detail">
+              <h3>Rock Solid</h3>
+            </div>
           </div>
         </div>
       </div>
@@ -19,8 +57,27 @@
   </div>
 </template>
 <script>
+import { getPhoto } from '@/api/photo'
+
 export default {
-  name: 'PhotoShow'
+  name: 'PhotoShow',
+  data() {
+    return {
+      dateList: [],
+      imagesLists: []
+    }
+  },
+  created() {
+    const that = this
+    getPhoto().then(function(res) {
+      that.dateList = res.dateList
+      const filePathNameList = res.filePathNameList
+      for (let index = 0; index < filePathNameList.length; index++) {
+        that.imagesLists.push({ imagesList: filePathNameList[index] })
+        console.log(filePathNameList[index])
+      }
+    })
+  }
 }
 </script>
 <style lang="scss">
@@ -49,14 +106,59 @@ export default {
   height: 250px;
   position: relative;
   margin: 15px 10px;
+  /*父元素里面包含需要变换的内容，所以设置为3D变换*/
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  -ms-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  transition: 1s;
+  /*设置在1s内完成变换*/
   img {
     width: 100%;
     height: 100%;
+    position: absolute;
+    display: block;
+    box-shadow: 5px 10px 10px -5px rgba(0, 0, 0, 0.5);
   }
+}
+
+.portfolio-group:hover {
+  transform: rotateY(180deg);
+}
+.portfolio-group .detail {
+  -webkit-transform: rotateY(180deg);
+  -ms-transform: rotateY(180deg);
+  -o-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+  background: #8b4373;
+  border: 2px solid #ddd;
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 5px 10px 10px -5px rgba(0, 0, 0, 0.5);
+}
+.portfolio-group .detail h3 {
+  padding: 15px 10px 0 10px;
+}
+.portfolio-group .detail p {
+  text-align: justify;
+  padding: 10px;
+  line-height: 1.8em;
+}
+.portfolio-group img,
+.portfolio-group .detail {
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  -o-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 .showAera {
   max-width: 80%;
   margin: 1% auto;
+  height: 800px;
   background: white;
   box-shadow: 0 0 5px rgba(107, 110, 112, 0.4);
 }
