@@ -20,7 +20,7 @@
             style="width: 33%"
             :src="url"
             :preview-src-list="imagesLists[index]['imagesList']"
-          >/></el-image> -->
+          >/></el-image>-->
           <el-carousel :interval="4000" type="card" height="200px">
             <el-carousel-item v-for="url in imagesLists[index]['imagesList']" :key="url">
               <el-image :src="url" />
@@ -66,15 +66,14 @@ export default {
   height: 200px;
   border-radius: 50%;
 }
-.photo_upload {
-  width: 300px;
-  background-color: aqua;
-}
 .pan-info-roles-container {
   padding: 20px;
   text-align: center;
 }
 .photo-container {
+  height: auto;
+  background-color: rgb(255, 255, 255);
   margin: 30px;
+  padding: 30px;
 }
 </style>

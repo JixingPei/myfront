@@ -179,25 +179,25 @@ export const constantRoutes = [
       path: 'date',
       name: 'Date',
       component: () => import('@/views/photo/date/index'),
-      meta: { title: '照片日期', icon: 'el-icon-picture' }
+      meta: { title: '我的足迹', icon: 'el-icon-picture' }
     },
+    // {
+    //   path: 'type',
+    //   name: 'Type',
+    //   component: () => import('@/views/photo/type/index'),
+    //   meta: { title: '照片类型', icon: 'el-icon-picture' }
+    // },
     {
-      path: 'type',
-      name: 'Type',
-      component: () => import('@/views/photo/type/index'),
-      meta: { title: '照片类型', icon: 'el-icon-picture' }
+      path: 'show',
+      name: 'Show',
+      component: () => import('@/views/photo/show/index.vue'),
+      meta: { title: '照片墙', icon: 'el-icon-picture' }
     },
     {
       path: 'upload',
       name: 'Upload',
       component: () => import('@/views/photo/upload/index.vue'),
       meta: { title: '照片上传', icon: 'el-icon-picture' }
-    },
-    {
-      path: 'show',
-      name: 'Show',
-      component: () => import('@/views/photo/show/index.vue'),
-      meta: { title: '照片墙', icon: 'el-icon-picture' }
     }
     ]
   },

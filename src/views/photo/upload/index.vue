@@ -13,6 +13,7 @@
             v-model="photoform.date"
             align="right"
             type="date"
+            value-format="yyyyMMdd"
             placeholder="选择日期"
             :picker-options="pickerOptions"
           />
@@ -27,23 +28,20 @@
             :auto-upload="false"
             list-type="picture"
             multiple
+            :data="photoform"
             accept="png"
           >
             <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
           </el-upload>
         </el-form-item>
         <el-form-item>
-          <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
-          <el-button type="primary" @click="onSubmit">立即创建</el-button>
-          <el-button>取消</el-button>
+          <el-button size="small" type="primary" @click="submitUpload">上传到服务器</el-button>
         </el-form-item>
       </el-form>
     </div>
   </div>
 </template>
 <script>
-import { getPhoto } from '@/api/photo'
 export default {
   name: 'UploadPhoto',
   data() {
@@ -75,8 +73,8 @@ export default {
       },
       typeList: null,
       photoform: {
-        phototype: null,
-        date: null,
+        phototype: '',
+        date: '',
         fileList: null
       }
     }
@@ -86,7 +84,10 @@ export default {
   },
   methods: {
     submitUpload() {
-      this.$refs.upload.submit()
+      const that = this
+      that.$refs.upload.submit().then(function(res) {
+        that.upload_successd()
+      })
     },
     addPhotoType() {
       console.log('addPhotoType')
@@ -101,13 +102,8 @@ export default {
     onSubmit() {
       const that = this
       console.log(this.photoform.phototype)
-      var params = {
-        name: 'qw'
-      }
-      getPhoto(params).then(function(res) {
-        console.log('res' + res)
-        that.upload_successd()
-      })
+      // that.submitUpload()
+      that.upload_successd()
     }
   }
 }
@@ -118,8 +114,19 @@ export default {
   margin: 30px;
 }
 .form-div {
-  background-color: aqua;
+  justify-content: center; /*水平居中*/
+  align-items: Center; /*垂直居中*/
+  border: 2px solid #ddd;
   width: 500px;
   padding: 20px;
+}
+.photo-container {
+  justify-content: center; /*水平居中*/
+  align-items: Center; /*垂直居中*/
+  height: auto;
+  width: auto;
+  background-color: rgb(255, 255, 255);
+  margin: 30px;
+  padding: 30px;
 }
 </style>
