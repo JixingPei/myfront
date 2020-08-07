@@ -6,3 +6,9 @@ export function getPhoto() {
     method: 'get'
   })
 }
+export function getPhotoWall() {
+  return request({
+    url: '/photowall',
+    method: 'get'
+  })
+}

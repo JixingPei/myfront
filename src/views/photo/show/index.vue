@@ -2,51 +2,9 @@
   <div class="showAera">
     <div class="content-container">
       <div class="portfolio-content">
-        <div class="portfolio-page">
+        <div v-for="image in imagesLists" :key="image" class="portfolio-page">
           <div class="portfolio-group">
-            <img :src="imagesLists[0]['imagesList'][0]">
-            <div class="detail">
-              <h3>Rock Solid</h3>
-            </div>
-          </div>
-          <div class="portfolio-group">
-            <img :src="imagesLists[0]['imagesList'][1]">
-            <div class="detail">
-              <h3>Rock Solid</h3>
-            </div>
-          </div>
-          <div class="portfolio-group">
-            <img :src="imagesLists[0]['imagesList'][2]">
-            <div class="detail">
-              <h3>Rock Solid</h3>
-            </div>
-          </div>
-          <div class="portfolio-group">
-            <img :src="imagesLists[0]['imagesList'][3]">
-            <div class="detail">
-              <h3>Rock Solid</h3>
-            </div>
-          </div>
-          <div class="portfolio-group">
-            <img :src="imagesLists[0]['imagesList'][4]">
-            <div class="detail">
-              <h3>Rock Solid</h3>
-            </div>
-          </div>
-          <div class="portfolio-group">
-            <img :src="imagesLists[0]['imagesList'][5]">
-            <div class="detail">
-              <h3>Rock Solid</h3>
-            </div>
-          </div>
-          <div class="portfolio-group">
-            <img :src="imagesLists[0]['imagesList'][6]">
-            <div class="detail">
-              <h3>Rock Solid</h3>
-            </div>
-          </div>
-          <div class="portfolio-group">
-            <img :src="imagesLists[0]['imagesList'][7]">
+            <img :src="image.imagesList">
             <div class="detail">
               <h3>Rock Solid</h3>
             </div>
@@ -57,7 +15,7 @@
   </div>
 </template>
 <script>
-import { getPhoto } from '@/api/photo'
+import { getPhotoWall } from '@/api/photo'
 
 export default {
   name: 'PhotoShow',
@@ -69,14 +27,15 @@ export default {
   },
   created() {
     const that = this
-    getPhoto().then(function(res) {
-      that.dateList = res.dateList
+    getPhotoWall().then(function(res) {
       const filePathNameList = res.filePathNameList
       for (let index = 0; index < filePathNameList.length; index++) {
         that.imagesLists.push({ imagesList: filePathNameList[index] })
-        console.log(filePathNameList[index])
+        console.log('data' + filePathNameList[index])
       }
     })
+    console.log('--------------------------')
+    console.log(that.imagesLists)
   }
 }
 </script>
@@ -103,7 +62,7 @@ export default {
 .portfolio-group {
   display: inline-block;
   width: 250px;
-  height: 250px;
+  height: 180px;
   position: relative;
   margin: 15px 10px;
   /*父元素里面包含需要变换的内容，所以设置为3D变换*/

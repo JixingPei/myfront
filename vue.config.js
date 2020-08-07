@@ -39,7 +39,7 @@ module.exports = {
     },
     proxy: {
       '/api': {
-        target: 'http://10.143.3.122:8888/',
+        target: 'http://localhost:8888/',
         changeOrigin: true,
         pathRewrite: {
           '^/api': ''
