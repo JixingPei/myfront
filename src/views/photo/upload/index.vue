@@ -23,7 +23,7 @@
           <el-upload
             ref="upload"
             class="upload-demo"
-            action="http://10.143.3.122:8888/uploadPhoto"
+            action="/web/uploadPhoto"
             :file-list="photoform.fileList"
             :auto-upload="false"
             list-type="picture"

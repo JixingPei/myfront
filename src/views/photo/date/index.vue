@@ -21,7 +21,7 @@
             :src="url"
             :preview-src-list="imagesLists[index]['imagesList']"
           >/></el-image>-->
-          <el-carousel :interval="4000" type="card" height="200px">
+          <el-carousel :interval="4000" type="card" height="400px">
             <el-carousel-item v-for="url in imagesLists[index]['imagesList']" :key="url">
               <el-image :src="url" />
             </el-carousel-item>

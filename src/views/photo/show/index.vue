@@ -2,11 +2,18 @@
   <div class="showAera">
     <div class="content-container">
       <div class="portfolio-content">
+        <el-dialog :visible.sync="dialogVisible" :before-close="handleClose">
+          <span>Lovo you</span>
+          <span slot="footer" class="dialog-footer">
+            <el-image :src="dialogImg" />
+            <el-button type="primary" @click="dialogVisible = false">Love you too</el-button>
+          </span>
+        </el-dialog>
         <div v-for="image in imagesLists" :key="image" class="portfolio-page">
-          <div class="portfolio-group">
+          <div class="portfolio-group" @click="dialogVisible = true;dialogImg=image.imagesList">
             <img :src="image.imagesList">
             <div class="detail">
-              <h3>Rock Solid</h3>
+              <h3>悄悄说爱你</h3>
             </div>
           </div>
         </div>
@@ -21,6 +28,8 @@ export default {
   name: 'PhotoShow',
   data() {
     return {
+      dialogVisible: false,
+      dialogImg: null,
       dateList: [],
       imagesLists: []
     }
