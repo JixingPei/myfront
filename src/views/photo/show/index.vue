@@ -2,12 +2,19 @@
   <div class="showAera">
     <div class="content-container">
       <div class="portfolio-content">
-        <el-dialog :visible.sync="dialogVisible" :before-close="handleClose">
-          <span>Lovo you</span>
-          <span slot="footer" class="dialog-footer">
+        <el-dialog :visible.sync="dialogVisible" style="text-align: center;">
+          <h2>Lovo you</h2>
+          <el-row>
             <el-image :src="dialogImg" />
+          </el-row>
+          <el-row>
             <el-button type="primary" @click="dialogVisible = false">Love you too</el-button>
-          </span>
+            <el-button @click="clikCancel">No</el-button>
+          </el-row>
+          <el-dialog :visible.sync="cancelDialogVisible" append-to-body="true" style="text-align: center;">
+            <h1>Are you sure?????</h1>
+            <el-button @click="cancelDialogVisible = false">我错了</el-button>
+          </el-dialog>
         </el-dialog>
         <div v-for="image in imagesLists" :key="image" class="portfolio-page">
           <div class="portfolio-group" @click="dialogVisible = true;dialogImg=image.imagesList">
@@ -29,6 +36,7 @@ export default {
   data() {
     return {
       dialogVisible: false,
+      cancelDialogVisible: false,
       dialogImg: null,
       dateList: [],
       imagesLists: []
@@ -40,15 +48,17 @@ export default {
       const filePathNameList = res.filePathNameList
       for (let index = 0; index < filePathNameList.length; index++) {
         that.imagesLists.push({ imagesList: filePathNameList[index] })
-        console.log('data' + filePathNameList[index])
       }
     })
-    console.log('--------------------------')
-    console.log(that.imagesLists)
+  },
+  methods: {
+    clikCancel() {
+      this.cancelDialogVisible = true
+    }
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scop>
 .content-container {
   box-sizing: border-box;
   max-width: 1170px;
@@ -72,6 +82,8 @@ export default {
   display: inline-block;
   width: 250px;
   height: 180px;
+  // width: 250px;
+  // height: 180px;
   position: relative;
   margin: 15px 10px;
   /*父元素里面包含需要变换的内容，所以设置为3D变换*/

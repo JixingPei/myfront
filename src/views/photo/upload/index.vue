@@ -23,7 +23,7 @@
           <el-upload
             ref="upload"
             class="upload-demo"
-            action="/web/uploadPhoto"
+            :action="uploadUrl"
             :file-list="photoform.fileList"
             :auto-upload="false"
             list-type="picture"
@@ -46,30 +46,35 @@ export default {
   name: 'UploadPhoto',
   data() {
     return {
+      uploadUrl: 'http://localhost:9999' + '/uploadPhoto',
       pickerOptions: {
         disabledDate(time) {
           return time.getTime() > Date.now()
         },
-        shortcuts: [{
-          text: '今天',
-          onClick(picker) {
-            picker.$emit('pick', new Date())
+        shortcuts: [
+          {
+            text: '今天',
+            onClick(picker) {
+              picker.$emit('pick', new Date())
+            }
+          },
+          {
+            text: '昨天',
+            onClick(picker) {
+              const date = new Date()
+              date.setTime(date.getTime() - 3600 * 1000 * 24)
+              picker.$emit('pick', date)
+            }
+          },
+          {
+            text: '一周前',
+            onClick(picker) {
+              const date = new Date()
+              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
+              picker.$emit('pick', date)
+            }
           }
-        }, {
-          text: '昨天',
-          onClick(picker) {
-            const date = new Date()
-            date.setTime(date.getTime() - 3600 * 1000 * 24)
-            picker.$emit('pick', date)
-          }
-        }, {
-          text: '一周前',
-          onClick(picker) {
-            const date = new Date()
-            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
-            picker.$emit('pick', date)
-          }
-        }]
+        ]
       },
       typeList: null,
       photoform: {
@@ -84,26 +89,20 @@ export default {
   },
   methods: {
     submitUpload() {
+      console.log(this.uploadUrl)
       const that = this
-      that.$refs.upload.submit().then(function(res) {
-        that.upload_successd()
-      })
+      that.$refs.upload.submit()
+      that.uploadSuccessd()
     },
     addPhotoType() {
       console.log('addPhotoType')
     },
-    upload_successd() {
+    uploadSuccessd() {
       const h = this.$createElement
       this.$notify({
         title: '提示',
         message: h('i', { style: 'color: teal' }, '添加成功')
       })
-    },
-    onSubmit() {
-      const that = this
-      console.log(this.photoform.phototype)
-      // that.submitUpload()
-      that.upload_successd()
     }
   }
 }

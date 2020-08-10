@@ -39,7 +39,8 @@ module.exports = {
     },
     proxy: {
       '/api': {
-        target: 'http://120.55.44.155:9999/',
+        target: 'http://localhost:9999/',
+        // target: 'http://120.55.44.155:9999/',
         changeOrigin: true,
         pathRewrite: {
           '^/api': ''
