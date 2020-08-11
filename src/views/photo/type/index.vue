@@ -1,90 +1,118 @@
 <template>
   <div class="photo-container">
-    <div class="components-container">
-      <pan-thumb :image="image" />
+    <div>
+      <el-button @click="getPhotoType">类型控制</el-button>
     </div>
     <div class="photoarea">
-      <!-- <span v-for="(index,type) in (index,typeList)" :key="index">{{ index + type }}</span> -->
-      <el-collapse
-        v-for="(type,index) in typeList"
-        :key="type"
-        v-model="activeNames"
-        @change="handleChange"
-      >
-        <el-collapse-item :title="type">
-          <el-image v-for="url in imagesLists[index]['imagesList']" :key="url" style="width: 10%" :src="url" :preview-src-list="imagesLists[index]['imagesList']">/>
-          </el-image></el-collapse-item>
+      <el-collapse v-for="(imagesLists,title,index) in typePhotoListMap" :key="index">
+        <el-collapse-item :title="title">
+          <el-image
+            v-for="(photo,index1) in imagesLists"
+            :key="index1"
+            style="width: 10%"
+            :src="photo.path"
+            :preview-src-list="[photo.path]"
+          >/></el-image>
+        </el-collapse-item>
       </el-collapse>
+      <el-dialog :visible.sync="dialogVisible" style="text-align: center;">
+        <el-table :data="photoType">
+          <el-table-column label="No" prop="index">
+            <template slot-scope="scope">
+              <span>{{ scope.$index + 1 }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="类型" prop="type" />
+          <el-table-column label="操作">
+            <template slot-scope="scope">
+              <el-button type="primary" @click="openUpdateDialog(scope.row)">修改</el-button>
+              <el-button type="danger" @click="dialogVisible=false">删除</el-button>
+            </template>
+          </el-table-column>
+          <el-table-column v-if="false" label="id" prop="uniqueId" />
+        </el-table>
+        <el-button style="margin-top:10px" @click="dialogVisible=false">取消</el-button>
+        <el-dialog :visible.sync="updateDialogVisible" append-to-body>
+          <el-form ref="updatePhotoTypeForm" :model="updatePhotoTypeForm">
+            <el-form-item label="修改后的值">
+              <el-input v-model="updatePhotoTypeForm.type" style="max-width: 780px" />
+            </el-form-item>
+            <el-form-item>
+              <el-button @click="updatePhotoType">修改</el-button>
+              <el-button @click="updateDialogVisible=false">取消</el-button>
+            </el-form-item>
+          </el-form>
+        </el-dialog>
+      </el-dialog>
     </div>
-
   </div>
 </template>
 <script>
-import PanThumb from '@/components/PanThumb'
+import {
+  getPhotoType,
+  updatePhotoType,
+  deletePhotoType,
+  getTypePhotos
+} from '@/api/photo'
 
 export default {
   name: 'TypePhoto',
-  components: { PanThumb },
   data() {
     return {
-      typeList: ['旅游', '居家'],
-      imagesLists: [
-        {
-          imagesList: [
-            'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
-            'https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg'
-          ]
-        },
-        {
-          imagesList: [
-            'https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg',
-            'https://fuss10.elemecdn.com/9/bb/e27858e973f5d7d3904835f46abbdjpeg.jpeg'
-          ]
-        }
-      ],
-      test: 99 * 2,
-      imagecropperShow: false,
-      imagecropperKey: 0,
-      image: 'http://10.143.3.122:8888/img/1.png',
-      urls: [
-        'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
-        'https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg',
-        'https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg',
-        'https://fuss10.elemecdn.com/9/bb/e27858e973f5d7d3904835f46abbdjpeg.jpeg',
-        'https://fuss10.elemecdn.com/d/e6/c4d93a3805b3ce3f323f7974e6f78jpeg.jpeg',
-        'https://fuss10.elemecdn.com/3/28/bbf893f792f03a54408b3b7a7ebf0jpeg.jpeg',
-        'https://fuss10.elemecdn.com/2/11/6535bcfb26e4c79b48ddde44f4b6fjpeg.jpeg'
-      ]
+      updateDialogVisible: false,
+      dialogVisible: false,
+      typeList: [],
+      photoType: [],
+      typePhotoListMap: [],
+      updatePhotoTypeForm: {
+        oldType: null,
+        uniqueId: null,
+        type: null
+      }
     }
   },
+  created() {
+    const that = this
+    that.typePhotoListMap = []
+    getTypePhotos().then((res) => {
+      // imagesLists = res.data;
+      that.typePhotoListMap = res.map
+    })
+    console.log(that.typeList)
+  },
   methods: {
-    handleRemove(file, fileList) {
-      console.log(file, fileList)
+    getPhotoType() {
+      this.dialogVisible = true
+      getPhotoType().then((res) => {
+        console.log(res.data)
+        this.photoType = res.data
+      })
     },
-    handlePreview(file) {
-      console.log(file)
+    openUpdateDialog(row) {
+      console.log(row)
+      this.updatePhotoTypeForm.uniqueId = row.uniqueId
+      this.updatePhotoTypeForm.oldType = row.type
+      this.updateDialogVisible = true
     },
-    handleExceed(files, fileList) {
-      this.$message.warning(
-        `当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
-          files.length + fileList.length
-        } 个文件`
-      )
+    updatePhotoType() {
+      const that = this
+      that.typePhotoListMap = []
+      updatePhotoType(this.updatePhotoTypeForm).then((res) => {
+        getTypePhotos().then((res) => {
+          // imagesLists = res.data;
+          that.typePhotoListMap = res.map
+          that.updateDialogVisible = false
+          that.dialogVisible = false
+        })
+      })
     },
-    beforeRemove(file, fileList) {
-      return this.$confirm(`确定移除 ${file.name}？`)
-    },
-    cropSuccess(resData) {
-      this.imagecropperShow = false
-      this.imagecropperKey = this.imagecropperKey + 1
-      this.image = resData.files.avatar
-    },
-    close() {
-      this.imagecropperShow = false
+    deletePhotoType() {
+      deletePhotoType()
     }
   }
 }
 </script>
+
 <style lang="scss" scoped>
 .avatar {
   width: 200px;
@@ -100,6 +128,9 @@ export default {
   text-align: center;
 }
 .photo-container {
-    margin: 30px;
+  height: auto;
+  background-color: rgb(255, 255, 255);
+  margin: 30px;
+  padding: 30px;
 }
 </style>

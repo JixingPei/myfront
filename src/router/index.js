@@ -181,12 +181,12 @@ export const constantRoutes = [
       component: () => import('@/views/photo/date/index'),
       meta: { title: '我的足迹', icon: 'el-icon-picture' }
     },
-    // {
-    //   path: 'type',
-    //   name: 'Type',
-    //   component: () => import('@/views/photo/type/index'),
-    //   meta: { title: '照片类型', icon: 'el-icon-picture' }
-    // },
+    {
+      path: 'type',
+      name: 'Type',
+      component: () => import('@/views/photo/type/index'),
+      meta: { title: '照片类型', icon: 'el-icon-picture' }
+    },
     {
       path: 'show',
       name: 'Show',

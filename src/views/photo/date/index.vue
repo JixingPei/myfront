@@ -9,9 +9,7 @@
       <el-collapse
         v-for="(type,index) in dateList"
         :key="type"
-        v-model="activeNames"
         accordion
-        @change="handleChange"
       >
         <el-collapse-item :title="type">
           <!-- <el-image

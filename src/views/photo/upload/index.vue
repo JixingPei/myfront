@@ -3,10 +3,10 @@
     <div class="form-div">
       <el-form ref="photoform" :model="photoform" label-width="80px">
         <el-form-item label="照片类别">
-          <el-radio-group v-model="photoform.phototype">
+          <el-radio-group v-model="photoform.type">
             <el-radio-button v-for="value in typeList" :key="value" :label="value" />
           </el-radio-group>
-          <el-button @click="addPhotoType">+</el-button>
+          <el-button @click="dialogVisible=true">+</el-button>
         </el-form-item>
         <el-form-item label="照片日期">
           <el-date-picker
@@ -38,10 +38,26 @@
           <el-button size="small" type="primary" @click="submitUpload">上传到服务器</el-button>
         </el-form-item>
       </el-form>
+      <el-dialog :visible.sync="dialogVisible" style="text-align: center;">
+        <el-form>
+          <el-form-item>
+            <h1>请输入想要添加的类别</h1>
+          </el-form-item>
+          <el-form-item>
+            <el-input v-model="addType" label="类别" />
+          </el-form-item>
+          <el-form-item>
+            <el-button @click="addPhotoType">确定</el-button>
+            <el-button @click="dialogVisible = false">取消</el-button>
+          </el-form-item>
+        </el-form>
+      </el-dialog>
     </div>
   </div>
 </template>
 <script>
+import { addPhotoType, getPhotoType } from '@/api/photo'
+
 export default {
   name: 'UploadPhoto',
   data() {
@@ -76,16 +92,28 @@ export default {
           }
         ]
       },
-      typeList: null,
+      typeList: [],
+      dialogVisible: false,
       photoform: {
-        phototype: '',
+        type: '',
         date: '',
-        fileList: null
-      }
+        fileList: []
+      },
+      addType: null
     }
   },
   created() {
-    this.typeList = ['旅游', '游学', '工作']
+    const that = this
+    that.typeList = []
+    getPhotoType().then(function(res) {
+      console.log(res.data)
+      const photoTypeList = res.data
+      for (let index = 0; index < photoTypeList.length; index++) {
+        const type = photoTypeList[index].type
+        that.typeList.push(type)
+      }
+    })
+    console.log(that.typeList)
   },
   methods: {
     submitUpload() {
@@ -96,6 +124,13 @@ export default {
     },
     addPhotoType() {
       console.log('addPhotoType')
+      const that = this
+      addPhotoType(this.addType).then((res) => {
+        console.log(res.data[0].type)
+        that.typeList.push(res.data[0].type)
+        that.dialogVisible = false
+        that.addType = ''
+      })
     },
     uploadSuccessd() {
       const h = this.$createElement
@@ -116,8 +151,9 @@ export default {
   justify-content: center; /*水平居中*/
   align-items: Center; /*垂直居中*/
   border: 2px solid #ddd;
-  width: 500px;
+  min-width: 500px;
   padding: 20px;
+  width: auto
 }
 .photo-container {
   justify-content: center; /*水平居中*/

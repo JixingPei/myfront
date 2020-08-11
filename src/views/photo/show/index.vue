@@ -11,12 +11,12 @@
             <el-button type="primary" @click="dialogVisible = false">Love you too</el-button>
             <el-button @click="clikCancel">No</el-button>
           </el-row>
-          <el-dialog :visible.sync="cancelDialogVisible" append-to-body="true" style="text-align: center;">
+          <el-dialog :visible.sync="cancelDialogVisible" append-to-body style="text-align: center;">
             <h1>Are you sure?????</h1>
             <el-button @click="cancelDialogVisible = false">我错了</el-button>
           </el-dialog>
         </el-dialog>
-        <div v-for="image in imagesLists" :key="image" class="portfolio-page">
+        <div v-for="(image,index) in imagesLists" :key="index" class="portfolio-page">
           <div class="portfolio-group" @click="dialogVisible = true;dialogImg=image.imagesList">
             <img :src="image.imagesList">
             <div class="detail">
