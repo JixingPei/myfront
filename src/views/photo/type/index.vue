@@ -26,7 +26,7 @@
           <el-table-column label="操作">
             <template slot-scope="scope">
               <el-button type="primary" @click="openUpdateDialog(scope.row)">修改</el-button>
-              <el-button type="danger" @click="dialogVisible=false">删除</el-button>
+              <el-button type="danger" @click="openMessageBox(scope.row)">删除</el-button>
             </template>
           </el-table-column>
           <el-table-column v-if="false" label="id" prop="uniqueId" />
@@ -52,7 +52,8 @@ import {
   getPhotoType,
   updatePhotoType,
   deletePhotoType,
-  getTypePhotos
+  getTypePhotos,
+  notifyMessage
 } from '@/api/photo'
 
 export default {
@@ -81,6 +82,39 @@ export default {
     console.log(that.typeList)
   },
   methods: {
+    openMessageBox(row) {
+      this.$confirm(
+        '是否删除照片类型 [' + row.type + '] ,并且删除对应照片?',
+        '提示',
+        {
+          confirmButtonText: '删除',
+          cancelButtonText: '取消',
+          type: 'warning',
+          center: true
+        }
+      )
+        .then(() => {
+          console.log(row.uniqueId)
+          const data = {
+            uniqueId: row.uniqueId,
+            type: row.type
+          }
+          const that = this
+          that.typePhotoListMap = []
+          deletePhotoType(data).then((res) => {
+            getTypePhotos().then((res) => {
+              that.typePhotoListMap = res.map
+              console.log(that.typeList)
+              notifyMessage(this, '删除成功')
+              that.dialogVisible = false
+            })
+          })
+        })
+        .catch(() => {
+          notifyMessage(this, '已取消删除')
+          this.dialogVisible = false
+        })
+    },
     getPhotoType() {
       this.dialogVisible = true
       getPhotoType().then((res) => {
@@ -105,9 +139,6 @@ export default {
           that.dialogVisible = false
         })
       })
-    },
-    deletePhotoType() {
-      deletePhotoType()
     }
   }
 }

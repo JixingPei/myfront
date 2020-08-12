@@ -40,12 +40,18 @@ export function updatePhotoType(params) {
     params
   })
 }
-export function deletePhotoType(uniqueId) {
+export function deletePhotoType(data) {
   return request({
     url: '/photoType',
-    method: 'put',
-    data: {
-      uniqueId: uniqueId
-    }
+    method: 'delete',
+    data
+  })
+}
+
+export function notifyMessage(object, message) {
+  const h = object.$createElement
+  object.$notify({
+    title: '提示',
+    message: h('i', { style: 'color: teal' }, message)
   })
 }
