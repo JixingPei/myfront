@@ -62,6 +62,7 @@ export default {
   name: 'UploadPhoto',
   data() {
     return {
+      // uploadUrl: 'http://oldpei.icu/web/uploadPhoto',
       uploadUrl: 'http://localhost:9999' + '/uploadPhoto',
       pickerOptions: {
         disabledDate(time) {
