@@ -45,14 +45,7 @@ export const constantRoutes = [
 
   {
     path: '/',
-    component: Layout,
-    redirect: '/dashboard',
-    children: [{
-      path: 'dashboard',
-      name: 'Dashboard',
-      component: () => import('@/views/dashboard/index'),
-      meta: { title: '老裴瞎做的系统', icon: 'dashboard' }
-    }]
+    redirect: '/login'
   },
 
   // {
